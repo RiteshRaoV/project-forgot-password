@@ -41,21 +41,24 @@ public class HomeController {
 		return "home";
 	}
 
-	@GetMapping("/index")
-	public String index() {
-		return "index";
-	}
-
 	@GetMapping("/signin")
-	public String login() {
-		return "index";
+	public String index() {
+		return "signIn";
+	}
+	@GetMapping("/signIn")
+	public String signIn(){
+		return "signIn";
+	}
+	@GetMapping("/signUp")
+	public String resgister() {
+		return "signUp";
 	}
 
 	@PostMapping("/saveUser")
 	public String saveUser(@ModelAttribute User user, HttpSession session, Model m) {
 		if (userService.existsByEmail(user.getEmail())) {
 			session.setAttribute("msg", "Email address already exists");
-			return "redirect:/index";
+			return "redirect:/signUp";
 		}
 		User savedUser = userService.saveUser(user);
 
@@ -65,7 +68,7 @@ public class HomeController {
 			session.setAttribute("msg", "Something went wrong on the server");
 		}
 
-		return "redirect:/index";
+		return "redirect:/signUp";
 	}
 
 	@PostMapping("/forgot-password")

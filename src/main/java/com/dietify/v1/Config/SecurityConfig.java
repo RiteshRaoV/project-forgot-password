@@ -35,6 +35,7 @@ public class SecurityConfig {
 		return daoAuthenticationProvider;
 	}
 	
+	@SuppressWarnings("removal")
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception
 	{
