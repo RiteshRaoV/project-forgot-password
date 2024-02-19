@@ -3,6 +3,8 @@ package com.dietify.v1.Config;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.dietify.v1.Entity.User;
@@ -15,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
 	@Autowired
 	private UserRepo userRepo;
@@ -47,7 +51,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public void resetPassword(String email, String token, String newPassword) {
 		User user = userRepo.findByEmailAndResetToken(email, token);
 		if (user != null) {
-			user.setPassword(newPassword);
+			String password = passwordEncoder.encode(newPassword);
+			user.setPassword(password);
 			user.setResetToken(null);
 			userRepo.save(user);
 		}
