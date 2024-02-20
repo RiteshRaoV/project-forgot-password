@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Day Meal Results</title>
+</head>
+<body>
+    <h1>Day Meal Results</h1>
+    <div th:if="${dayResponse != null}">
+        <ul>
+            <li th:each="meal : ${dayResponse.meals}">
+                <img th:src="${meal.sourceUrl}" alt="image1"/>
+                <p th:text="${meal.readyInMinutes}"></p>
+                <p th:text="${meal.title}"></p>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

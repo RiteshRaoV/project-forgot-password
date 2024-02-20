@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Meal List</title>
+    <style>
+        .meal-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .meal-card {
+            width: 300px;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .meal-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .meal-image {
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="meal-container">
+        <div class="meal-card" th:each="meal : ${meals}">
+            <h2 class="meal-title" th:text="${meal.title}"></h2>
+            <img class="meal-image" th:src="${meal.sourceUrl}" alt="Meal Image">
+            <p>Ready in minutes: <span th:text="${meal.readyInMinutes}"></span></p>
+            <p>Servings: <span th:text="${meal.servings}"></span></p>
+        </div>
+    </div>
+</body>
+</html>

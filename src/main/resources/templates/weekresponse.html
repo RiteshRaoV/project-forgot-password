@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Week Meals</title>
+</head>
+
+    <!-- <div th:if="${weekResponse != null}">
+        <div th:each="day : ${weekResponse.week}">
+            <h3 th:text="${day.name}"></h3>
+            <ul>
+                <li th:each="meal : ${day.meals}">
+                    <a th:href="@{${meal.sourceUrl}}" th:text="${meal.title}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div th:if="${weekResponse == null}">
+        <p>No meals found for the week.</p>
+    </div> -->
+
+   
+<body>
+    <h1>Weekly Meal Planner</h1>
+    <div th:each="day, dayIndex : ${week}">
+        <h2 th:text="${day.key}"></h2>
+        <div th:each="meal : ${day.value.meals}">
+            <img th:src="'https://spoonacular.com/recipeImages/' + ${meal.id} + '-556x370.' + ${meal.imageType}" th:alt="${meal.title}" />
+            <p th:text="${meal.title}"></p>
+            <p>Ready in <span th:text="${meal.readyInMinutes}"></span> minutes</p>
+            <p>Servings: <span th:text="${meal.servings}"></span></p>
+            <a th:href="@{${meal.sourceUrl}}" target="_blank">View Recipe</a>
+        </div>
+        <h3>Nutrients</h3>
+        <ul>
+            <li>Calories: <span th:text="${day.value.nutrients.calories}"></span></li>
+            <li>Protein: <span th:text="${day.value.nutrients.protein}"></span></li>
+            <li>Fat: <span th:text="${day.value.nutrients.fat}"></span></li>
+            <li>Carbohydrates: <span th:text="${day.value.nutrients.carbohydrates}"></span></li>
+        </ul>
+    </div>
+
+
+</body>
+</html>

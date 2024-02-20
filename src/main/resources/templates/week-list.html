@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Week Meals</title>
+    <style>
+        .day-container {
+            margin-bottom: 20px;
+        }
+        .meal-card {
+            width: 300px;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        .meal-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .meal-image {
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="day-container">
+        <div class="day" th:each="dayEntry : ${week.entrySet()}">
+            <h2 th:text="${dayEntry.key}"></h2>
+            <div class="meal-container">
+                <div class="meal-card" th:each="meal : ${dayEntry.value.meals}">
+                    <h3 class="meal-title" th:text="${meal.title}"></h3>
+                    <img class="meal-image" th:src="${meal.sourceUrl}" alt="Meal Image">
+                    <p>Ready in minutes: <span th:text="${meal.readyInMinutes}"></span></p>
+                    <p>Servings: <span th:text="${meal.servings}"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
