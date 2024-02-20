@@ -45,10 +45,12 @@ public class HomeController {
 	public String index() {
 		return "signIn";
 	}
+
 	@GetMapping("/signIn")
-	public String signIn(){
+	public String signIn() {
 		return "signIn";
 	}
+
 	@GetMapping("/signUp")
 	public String resgister() {
 		return "signUp";
@@ -72,24 +74,42 @@ public class HomeController {
 	}
 
 	@PostMapping("/forgot-password")
-    public ResponseEntity<?> forgotPassword(@RequestParam String email) {
-        userService.initiatePasswordReset(email);
-        return ResponseEntity.ok("Password reset instructions sent to your email.");
-    }
+	public String forgotPassword(@RequestParam String email, HttpSession session) {
+		if (userService.existsByEmail(email)) {
+			userService.initiatePasswordReset(email);
+			session.setAttribute("message", "Link sent to your email");
+			return "redirect:/forgot-password";
+
+		} else {
+			session.setAttribute("message", "email does'nt exist");
+			return "redirect:/forgot-password";
+
+		}
+	}
+
+	@GetMapping("/forgot-password")
+	public String forgotpassword() {
+		return "forgot_password";
+	}
 
 	@GetMapping("/reset")
-	public String reset(){
-		return "reset";
-	}
-	@GetMapping("/forgot")
-	public String forgot(){
-		return "forgot";
+	public String showResetPasswordForm(@RequestParam("token") String token, Model model) {
+		// Find user by reset token
+		User user = userService.findUserByResetToken(token);
+		if (user != null) {
+			model.addAttribute("email", user.getEmail());
+			return "reset_password";
+		} else {
+			// Handle invalid token (optional)
+			return "reset_password";
+		}
 	}
 
-    @PostMapping("/reset-password")
-    public ResponseEntity<?> resetPassword(@RequestParam String email, @RequestParam String token, @RequestParam String newPassword) {
-        userService.resetPassword(email, token, newPassword);
-        return ResponseEntity.ok("Password reset successful.");
-    }
+	@PostMapping("/reset")
+	public String resetPassword(@RequestParam("email") String email, @RequestParam("token") String token,
+			@RequestParam("password") String password) {
+		userService.resetPassword(email, token, password);
+		return "redirect:/signIn"; // Redirect to login page after password reset
+	}
 
 }

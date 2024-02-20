@@ -28,6 +28,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public User findUserByResetToken(String token) {
+        return userRepo.findByResetToken(token);
+    }
+
+	@Override
 	public void removeSessionMessage() {
 
 		HttpSession session = ((ServletRequestAttributes) (RequestContextHolder.getRequestAttributes())).getRequest()
@@ -56,5 +61,7 @@ public class UserServiceImpl implements UserService {
 	public void resetPassword(String email, String token, String newPassword) {
 		customUserDetailsService.resetPassword(email, token, newPassword);
 	}
+
+	
 
 }

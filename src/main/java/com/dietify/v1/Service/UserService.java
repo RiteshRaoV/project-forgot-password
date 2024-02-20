@@ -13,4 +13,6 @@ public interface UserService {
     public void resetPassword(String email, String token, String newPassword);
 
 	public void initiatePasswordReset(String email);
+
+	public User findUserByResetToken(String token);
 }
