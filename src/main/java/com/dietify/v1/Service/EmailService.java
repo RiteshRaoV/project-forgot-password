@@ -24,7 +24,6 @@ public class EmailService {
         mailSender.send(message);
         System.out.println("Mail Send...");
 
-
     }
 }
 

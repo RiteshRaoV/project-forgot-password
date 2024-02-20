@@ -3,7 +3,7 @@ package com.dietify.v1.Controllers;
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+// import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,14 +41,9 @@ public class HomeController {
 		return "home";
 	}
 
-	@GetMapping("/signin")
-	public String index() {
-		return "signIn";
-	}
-
-	@GetMapping("/signIn")
+	@GetMapping(value = {"/signin", "/signIn"})
 	public String signIn() {
-		return "signIn";
+    	return "signIn";
 	}
 
 	@GetMapping("/signUp")
@@ -66,6 +61,7 @@ public class HomeController {
 
 		if (savedUser != null) {
 			session.setAttribute("msg", "Registered successfully");
+			return "redirect:/signIn";
 		} else {
 			session.setAttribute("msg", "Something went wrong on the server");
 		}

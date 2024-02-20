@@ -16,12 +16,6 @@ public class Meals {
     @JsonProperty("sourceUrl")
     private String sourceUrl;
 
-    // Getters and setters...
-
-
-
-    // Getter and setter methods...
-
     @Override
     public String toString() {
         return "Meals{" +
