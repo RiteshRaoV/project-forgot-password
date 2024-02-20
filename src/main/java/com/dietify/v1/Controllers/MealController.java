@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +20,7 @@ import com.dietify.v1.DTO.Week.Week;
 import com.dietify.v1.DTO.Week.WeekResponse;
 
 
-@RestController
+@Controller
 @RequestMapping("/mealplanner")
 public class MealController {
 
@@ -30,7 +32,7 @@ public class MealController {
 	private String apiKey;
 
 	@GetMapping("/day")
-	public ResponseEntity<DayResponse> getDayMeals(
+	public String getDayMeals(Model model,
                               @RequestParam Optional<String> targetCalories,
                               @RequestParam Optional<String> diet,
                               @RequestParam Optional<String> exclusions){
@@ -55,8 +57,9 @@ public class MealController {
 					meal.setSourceUrl(imageURL);
 				});
 			}
+			model.addAttribute("dayResponse", dayResponse);
 		}
-		return response;
+		return "day-list";
 	}
 
 	@GetMapping("/week")

@@ -2,39 +2,42 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Meal List</title>
+    <title>Day Meals</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        .meal-container {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .meal-card {
-            width: 300px;
+        /* Add custom styling for recipe cards */
+        .recipe-card {
+            width: 300px; /* Adjust card width as needed */
             margin: 10px;
             padding: 10px;
-            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Add shadow effect */
             border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-        .meal-title {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        .meal-image {
-            width: 100%;
-            height: auto;
-            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="meal-container">
-        <div class="meal-card" th:each="meal : ${meals}">
-            <h2 class="meal-title" th:text="${meal.title}"></h2>
-            <img class="meal-image" th:src="${meal.sourceUrl}" alt="Meal Image">
-            <p>Ready in minutes: <span th:text="${meal.readyInMinutes}"></span></p>
-            <p>Servings: <span th:text="${meal.servings}"></span></p>
+    <h1>Day Meals</h1>
+    <div th:if="${dayResponse != null}">
+        <!-- Add Bootstrap row container -->
+        <div class="row">
+            <div th:each="meal : ${dayResponse.meals}" class="col-md-4">
+                <!-- Add Bootstrap column class -->
+                <div class="recipe-card">
+                    <img th:src="${meal.sourceUrl}" alt="Recipe Image" class="img-fluid" style="max-width: 100%;">
+                    <h3 th:text="${meal.title}"></h3>
+                    <p th:text="'Ready in minutes: ' + ${meal.readyInMinutes}"></p>
+                    <p th:text="'Servings: ' + ${meal.servings}"></p>
+                    <!-- Add a form with a hidden input field to send the meal ID as a query parameter -->
+                    <form action="/recipe" method="get">
+                        <input type="hidden" name="id" th:value="${meal.id}">
+                        <button type="submit" class="btn btn-primary">Get Recipe</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
+    <!-- Add Bootstrap JavaScript link (optional, only if needed) -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

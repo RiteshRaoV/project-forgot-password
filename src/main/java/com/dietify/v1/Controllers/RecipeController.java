@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,7 +17,7 @@ import com.dietify.v1.DTO.RecipeDetails.Recipe;
 
 
 @RestController
-@RequestMapping("/recipes")
+// @RequestMapping("/recipes")
 public class RecipeController {
 
     @Value("${apikey}")  // Define your API key in application.properties
@@ -28,8 +29,8 @@ public class RecipeController {
         this.restTemplate = restTemplate;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Recipe> getRecipeDetails(@PathVariable String id) {
+    @GetMapping("/recipe")
+    public ResponseEntity<Recipe> getRecipeDetails(@RequestParam String id) {
         String apiUrl = "https://api.spoonacular.com/recipes/{id}/information?apiKey={apiKey}";
         Recipe response = restTemplate.getForObject(apiUrl, Recipe.class, id, apiKey);
 
