@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,8 +18,8 @@ public class MongoDBController {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    @PostMapping("mongodb/store/{userID}")
-    public ResponseEntity<String> storeDataToMongoDB(@RequestBody String body, @PathVariable String userID) {
+    @PostMapping("mongodb/store")
+    public ResponseEntity<String> storeDataToMongoDB(@RequestBody String body, @RequestParam String userID) {
         try {
             // Convert the JSON string to a Document
             Document document = Document.parse(body);
@@ -36,8 +37,8 @@ public class MongoDBController {
         }
     }
 
-    @GetMapping("/mongodb/fetch/{userID}")
-    public ResponseEntity<String> fetchDataFromMongoDB(@PathVariable String userID) {
+    @GetMapping("/mongodb/fetch")
+    public ResponseEntity<String> fetchDataFromMongoDB(@RequestParam String userID) {
         String data = mongoTemplate.findAll(String.class, "mealPlans" ).toString();
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
