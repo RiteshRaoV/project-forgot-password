@@ -46,7 +46,8 @@
                 <td th:text="${user.role}"></td>
                 <td>
                     <th:block th:if="${user.role != 'ROLE_ADMIN'}">
-                        <form action="/admin/user/delete" method="post">
+                        <form th:action="@{/admin/user/delete}" method="post">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                             <button type="submit" class="delete" name="id" th:value="${user.id}">delete</button>
                         </form>
                     </th:block>
@@ -54,9 +55,11 @@
             </tr>
         </tbody>
     </table>
-    <form action="/logout">
-        <button action="submit">Logout</button>
+    <form th:action="@{/logout}" method="post">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        <button type="submit">Logout</button>
     </form>
+    
 
 </body>
 </html>

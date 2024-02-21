@@ -40,7 +40,8 @@
               <div class="errorClass">
                 <p th:if="${param.error}" class="text-center text-danger fs-5" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></p>
               </div>
-              <form action="userLogin" method="post">
+              <form th:action="userLogin" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <label>Email</label>
                 <input type="email"  name="username" required/>
                 <label>Password</label>

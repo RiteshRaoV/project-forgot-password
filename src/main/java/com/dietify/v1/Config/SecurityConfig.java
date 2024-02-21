@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -16,7 +18,7 @@ public class SecurityConfig {
 
 	@Autowired
 	public CustomAuthSucessHandler sucessHandler;
-	
+
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -26,7 +28,7 @@ public class SecurityConfig {
 	public UserDetailsService getDetailsService() {
 		return new CustomUserDetailsService();
 	}
-	
+
 	@Bean
 	public DaoAuthenticationProvider getAuthenticationProvider() {
 		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -34,21 +36,33 @@ public class SecurityConfig {
 		daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
 		return daoAuthenticationProvider;
 	}
-	
+
 	@SuppressWarnings("removal")
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception
-	{
-		http.csrf().disable()
-		.authorizeHttpRequests().requestMatchers("/mealplanner/**").hasRole("USER")
-		.requestMatchers("/admin/**").hasRole("ADMIN")
-		.requestMatchers("/**").permitAll().and()
-		.formLogin().loginPage("/signin").loginProcessingUrl("/userLogin")
-		.successHandler(sucessHandler)
-		.permitAll();
-		
-		
-		return http.build();
-	}
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests()
+                .requestMatchers("/saveUser").permitAll() // Allow unauthenticated access to /saveUser
+                .requestMatchers("/mealplanner/**").hasRole("USER")
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/**").permitAll()
+                .and()
+            .formLogin()
+                .loginPage("/signin")
+                .loginProcessingUrl("/userLogin")
+                .successHandler(sucessHandler)
+                .permitAll()
+                .and()
+            .logout() // Configuring logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
+                .and()
+            .csrf()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()); // Enable CSRF protection with HTTP-only cookie
+        return http.build();
+    }
 
 }

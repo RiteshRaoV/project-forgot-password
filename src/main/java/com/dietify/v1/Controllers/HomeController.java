@@ -61,7 +61,7 @@ public class HomeController {
 
 		if (savedUser != null) {
 			session.setAttribute("msg", "Registered successfully");
-			return "redirect:/signIn";
+			return "redirect:/signUp";
 		} else {
 			session.setAttribute("msg", "Something went wrong on the server");
 		}

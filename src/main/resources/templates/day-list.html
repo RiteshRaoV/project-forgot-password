@@ -1,43 +1,62 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeLeaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Day Meals</title>
-    <!-- Add Bootstrap CSS link -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        /* Add custom styling for recipe cards */
-        .recipe-card {
-            width: 300px; /* Adjust card width as needed */
-            margin: 10px;
-            padding: 10px;
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Add shadow effect */
-            border-radius: 5px;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/day-list.css}">
+
 </head>
 <body>
-    <h1>Day Meals</h1>
-    <div th:if="${dayResponse != null}">
-        <!-- Add Bootstrap row container -->
-        <div class="row">
-            <div th:each="meal : ${dayResponse.meals}" class="col-md-4">
-                <!-- Add Bootstrap column class -->
-                <div class="recipe-card">
-                    <img th:src="${meal.sourceUrl}" alt="Recipe Image" class="img-fluid" style="max-width: 100%;">
-                    <h3 th:text="${meal.title}"></h3>
-                    <p th:text="'Ready in minutes: ' + ${meal.readyInMinutes}"></p>
-                    <p th:text="'Servings: ' + ${meal.servings}"></p>
-                    <!-- Add a form with a hidden input field to send the meal ID as a query parameter -->
-                    <form action="/recipe" method="get">
-                        <input type="hidden" name="id" th:value="${meal.id}">
-                        <button type="submit" class="btn btn-primary">Get Recipe</button>
-                    </form>
-                </div>
+    <div class="et_pb_section et_pb_section_2 et_pb_with_background et_section_regular">
+        <div class="et_pb_row et_pb_row_2">
+          <div class="et_pb_column et_pb_column_4_4 et_pb_column_6  et_pb_css_mix_blend_mode_passthrough et-last-child">
+            <div class="et_pb_module et_pb_text et_pb_text_4  et_pb_text_align_left et_pb_bg_layout_dark">
+              <div class="et_pb_text_inner">
+                <h2>Popular Classes</h2>
+                <h1></h1>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-    <!-- Add Bootstrap JavaScript link (optional, only if needed) -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <div class="et_pb_row et_pb_row_3 et_pb_gutters2">
+          <!-- Recipe Card 1 -->
+          <div class="et_pb_column et_pb_column_1_3 et_pb_column_7  et_pb_css_mix_blend_mode_passthrough" th:each="meal : ${dayResponse.meals}">
+            <div class="et_pb_module et_pb_image et_pb_image_2">
+              <span class="et_pb_image_wrap has-box-shadow-overlay">
+                <div class="box-shadow-overlay"></div><img decoding="async" th:src="${meal.sourceUrl}" alt="" title="Recipe Image">
+              </span>
+            </div>
+            <div class="et_pb_module et_pb_text et_pb_text_5  et_pb_text_align_left et_pb_bg_layout_light">
+              <div class="et_pb_text_inner">
+                <h3 th:text="${meal.title}">Recipe Title</h3>
+              </div>
+            </div>
+            <div class="et_pb_module et_pb_text et_pb_text_6  et_pb_text_align_left et_pb_bg_layout_light">
+              <div class="et_pb_text_inner">
+                <p th:text="${meal.readyInMinutes}">Preparation Time</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="et_pb_row et_pb_row_5">
+          <div class="et_pb_column et_pb_column_4_4 et_pb_column_14  et_pb_css_mix_blend_mode_passthrough et-last-child">
+            <div class="et_pb_module et_pb_text et_pb_text_11  et_pb_text_align_left et_pb_bg_layout_dark">
+              <div class="et_pb_text_inner">
+                <h2>What to Expect</h2>
+                <ul>
+                  <li>Show Up 15min prior to the start time</li>
+                  <li>All Ingredients and equipment are provided</li>
+                  <li>All classes start with a 15min walk to a nearby market</li>
+                  <li>All prepared food is enjoyed as a family style meal at the end of the class.</li>
+                  <li>Recipe cards and aprons are provided as parting gifts at the end of class</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    
 </body>
 </html>

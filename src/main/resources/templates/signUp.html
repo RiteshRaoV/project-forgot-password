@@ -40,7 +40,8 @@
                 <div class='errorClass'>
                   <p th:if="${session.msg}" class="text-center text-success fs-4" th:text="${session.msg}"></p>
                 </div>
-                <form action="saveUser" method="post">
+                <form th:action="saveUser" method="post">
+                  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 <label>Name</label>
                 <input type="text"  name="name" required/>
                 <label>Email</label>
